@@ -1,0 +1,393 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<style>
+    table {
+        border: 1px solid #dee2e6
+    }
+
+    td {
+        border-top: 1px solid #e5e5e5
+    }
+
+        td img {
+            width: 150px;
+            height: 150px;
+        }
+
+    .alimentoImagem {
+        width: 200px;
+        height: 200px;
+    }
+
+    td button svg {
+        margin: 0 0 !important;
+    }
+
+    #qtdAlimentoAdd {
+        flex-grow: 0;
+        flex-basis: 60px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">Calorias Consumidas Hoje</h5>
+                            </div>
+
+                            <div class="col-auto">
+                                <div class="stat text-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award align-middle"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="mt-1 mb-3" id="caloriasConsumidasHoje"></h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">Calorias Consumidas Ontem</h5>
+                            </div>
+
+                            <div class="col-auto">
+                                <div class="stat text-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-up-left align-middle"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="mt-1 mb-3" id="caloriasConsumidasOntem"></h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">Limite Diario</h5>
+                            </div>
+
+                            <div class="col-auto">
+                                <div class="stat text-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart align-middle"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="mt-1 mb-3" id="limiteDiario"></h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">Limite Semanal</h5>
+                            </div>
+
+                            <div class="col-auto">
+                                <div class="stat text-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart align-middle"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="mt-1 mb-3" id="limiteSemanal"></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAlimentoModal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus align-middle"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Adicionar Alimento
+    </button>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Alimentos Consumidos Hoje</h5>
+            </div>
+            <div class="card-body">
+                <div>
+                    <table class="table table-borderless" id="tableAlimnetosConsumidosHoje">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Imagem</th>
+                                <th>Nome</th>
+                                <th>Tipo</th>
+                                <th>Calorias</th>
+                                <th>Quantidade Consumida</th>
+                                <th>Data do Consumo</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modals -->
+<div class="modal fade" id="addAlimentoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Adicionar Alimento Hoje</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <input class="form-control" id="inputBuscaNomeAlimento" placeholder="Digite o nome do alimento...">
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-primary" onclick="pesquisarAlimento()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search align-middle me-2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            Pesquisar
+                        </button>
+                    </div>
+                    <div class="col-2">
+                        <div class="input-group">
+                            <button type="button" class="btn btn-primary" onclick="tiraValorQtd()">-</button>
+                            <input type="text" class="form-control" id="qtdAlimentoAdd" value="1" onkeypress="return apenasNumeros();" onchange="valorDefaultIgualZero();">
+                            <button type="button" class="btn btn-primary" onclick="addValorQtd()">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="form-floating">
+                    <input type="text" class="form-control" placeholder="Deixe uma observação aqui" id="observacao" style="height: 100px">
+                    <label for="obsTextarea">Observação</label>
+                </div>
+
+                <br />
+
+                <table class="table table-borderless" id="tablePesquisaAlimento">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Imagem</th>
+                            <th>Nome</th>
+                            <th>Calorias</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*<tr>
+                                <td><img src="~/img/alimentos/cafe.png" /></td>
+                                <td>Alfreds Futterkiste</td>
+                                <td>Maria Anders</td>
+                                <td>
+                                    <button type="button" class="btn btn-success">+</button>
+                                </td>
+                            </tr>*@
+                    </tbody>
+                </table>
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="excluiAlimentoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Excluir Alimentação</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Deseja mesmo excluir este registro?
+                <input type="hidden" value="" id="alimentoIdExcluir" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="excluirAlimentoUsuario()">Sim</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    window.onload = function () {
+        buscaDadosHome();
+    }
+
+    function buscaDadosHome() {
+       $.ajax({
+           url: "@Url.Action("BuscaDadosHome", "Home")",
+            //type: 'post',
+            beforeSend: function () {
+
+            },
+             success: function (data) {
+                 $("#caloriasConsumidasHoje").html(data.caloriasHoje);
+                 $("#caloriasConsumidasOntem").html(data.caloriasOntem);
+                 $("#limiteDiario").html(data.limiteDiario);
+                 $("#limiteSemanal").html(data.limiteSemanal);
+
+                 preencheTabelaHome(data.alimentosConsumidosHoje);
+            },
+            error: function (error) {
+                mostrarAlerta("Erro", "Ocorreu um erro.", "error");
+            }
+        })
+    }
+
+    function preencheTabelaHome(alimentos) {
+        var html = '';
+
+        alimentos.map((alimento) => {
+            html += `<tr>` +
+                        `<td><img src="img/alimentos/${alimento.imagem}"/></td>` +
+                            `<td>${alimento.nome}</td>` +
+                            `<td>${alimento.tipo}</td>` +
+                            `<td>${alimento.caloria}</td>` +
+                            `<td>${alimento.quantidade}</td>` +
+                            `<td>${alimento.dataConsumo}</td>` +
+                            `<td>` +
+                                `<button class="btn btn-danger" onclick="preencherAlimentoIdExcluir(${alimento.alimentoUsuarioId})" data-bs-toggle="modal" data-bs-target="#excluiAlimentoModal">` +
+                                    `<svg xmlns = "http://www.w3.org/2000/svg" width = "24" height = "24" viewBox = "0 0 24 24" fill = "none" stroke = "currentColor" stroke - width="2" stroke - linecap="round" stroke - linejoin="round" class="feather feather-x align-middle"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>` +
+                                `</button>` +
+                        `</td >` +
+                    `</tr >`;
+        });
+
+        $("#tableAlimnetosConsumidosHoje tbody").html(html);
+    }
+
+    function preencherAlimentoIdExcluir(alimentoIdExcluir) {
+        $("#alimentoIdExcluir").val(alimentoIdExcluir);
+    }
+
+    function excluirAlimentoUsuario() {
+       $.ajax({
+            url: "@Url.Action("ExcluirAlimentoUsuario", "Home")",
+            //type: 'post',
+            data: {
+                alimentoUsuarioId: $('#alimentoIdExcluir').val(),
+            },
+            beforeSend: function () {
+
+            },
+           success: function (data) {
+               mostrarAlerta("Sucesso", data.stringRetorno, "success");
+               buscaDadosHome();
+            },
+            error: function (error) {
+                mostrarAlerta("Erro", "Ocorreu um erro.", "error");
+            }
+        })
+    }
+
+    function pesquisarAlimento() {
+        $.ajax({
+            url: "@Url.Action("BuscaAlimento", "Home")",
+            //type: 'post',
+            data: {
+                nomeAlimento: $('#inputBuscaNomeAlimento').val(),
+            },
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                preencheTabelaBuscaAlimentos(data);
+            },
+            error: function (error) {
+                mostrarAlerta("Erro", "Ocorreu um erro.", "error");
+            }
+        })
+    }
+
+    function preencheTabelaBuscaAlimentos(alimentos) {
+        var html = '';
+
+        alimentos.map((alimento) => {
+            html += '<tr>' +
+                        `<td><img src="img/alimentos/${alimento.imagem}"/></td>` +
+                        `<td>${alimento.nome}</td>` +
+                        `<td>${alimento.caloria}</td>` +
+                        '<td>' +
+                `<button type="button" class="btn btn-success" value="${alimento.alimentoId}" onclick="CadastrarAlimentoUsuario(this.value)">+</button>` +
+                        '</td>' +
+                    '</tr>';
+        });
+
+        $("#tablePesquisaAlimento tbody").html(html);
+    }
+
+    function CadastrarAlimentoUsuario(alimentoId) {
+        $.ajax({
+            url: "@Url.Action("CadastrarAlimentoUsuario", "Home")",
+            //type: 'post',
+            data: {
+                alimentoId: alimentoId,
+                quantidade: $('#qtdAlimentoAdd').val(),
+                observacao: $('#observacao').val(),
+            },
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                mostrarAlerta("Sucesso", data.stringRetorno, "success");
+                $('#addAlimentoModal').modal('hide');
+                buscaDadosHome();
+            },
+            error: function (error) {
+                mostrarAlerta("Erro", "Ocorreu um erro.", "error");
+            }
+        })
+    }
+
+    function valorDefaultIgualZero() {
+        let quantidade = $("#qtdAlimentoAdd").val();
+        if (quantidade == "" || quantidade == null || quantidade == undefined) {
+            $("#qtdAlimentoAdd").val(0)
+        }
+        return;
+    }
+
+    function addValorQtd() {
+        let quantidade = $("#qtdAlimentoAdd").val();
+        $("#qtdAlimentoAdd").val(parseInt(quantidade) + 1);
+    }
+
+    function tiraValorQtd() {
+        let quantidade = $("#qtdAlimentoAdd").val();
+        let reultado = parseInt(quantidade) - 1;
+
+        if (reultado < 0) {
+            reultado = 0;
+        }
+
+        $("#qtdAlimentoAdd").val(reultado);
+    }
+</script>

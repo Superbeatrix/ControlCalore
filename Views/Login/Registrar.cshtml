@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Registre-se";
+    Layout = "_LayoutLogin";
+}
+
+<main class="d-flex w-100">
+    <div class="container d-flex flex-column">
+        <div class="row vh-100">
+            <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+                <div class="d-table-cell align-middle">
+
+                    <div class="text-center mt-4">
+                        <h1 class="h2">Cadastre-Se</h1>
+                        <p class="lead">
+                            Começe a ter uma alimentação saudavel agora mesmo
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="m-sm-4">
+                                <form>
+                                    <div class="mb-3">
+                                        <label class="form-label">Nome</label>
+                                        <input class="form-control form-control-lg" id="nome" type="text" name="name" placeholder="Digite seu nome" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Data de nascimento</label>
+                                        <input class="form-control form-control-lg" id="dataNascimento" type="date" name="dataNascimento" placeholder="dd-mm-yyyy" value="" min="1997-01-01" max="2030-12-31" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input class="form-control form-control-lg" id="email" type="email" name="email" placeholder="Digite seu email" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Password</label>
+                                        <input class="form-control form-control-lg" id="senha" type="password" name="password" placeholder="Digite sua senha" />
+                                    </div>
+                                    <div class="text-center mt-3">
+                                        <!--<a href="index.html" class="btn btn-lg btn-primary">Cadastrar</a>-->
+                                        <button type="button" class="btn btn-lg btn-primary" onclick="cadastrarUsuario()">Cadastrar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function cadastrarUsuario() {
+
+        let nome = $('#nome').val();
+        let email = $('#email').val();
+        let senha = $('#senha').val();
+        let dataNascimento = $('#dataNascimento').val();
+
+        if (nome == "" || nome == null || nome == undefined) {
+            mostrarAlerta("Atenção", "Preencha o nome", "warning");
+        }
+        else if (email == "" || email == null || email == undefined) {
+            mostrarAlerta("Atenção", "Preencha o email", "warning");
+        }
+        else if (senha == "" || senha == null || senha == undefined) {
+            mostrarAlerta("Atenção", "Preencha a senha", "warning");
+        }
+        else if (dataNascimento == "" || dataNascimento == null || dataNascimento == undefined) {
+            mostrarAlerta("Atenção", "Preencha a data de nascimento", "warning");
+        }
+        else {
+            $.ajax({
+            url: "@Url.Action("CadastrarUsuario", "Login")",
+            type: 'post',
+            data: {
+                nome: $('#nome').val(),
+                email: $('#email').val(),
+                senha: $('#senha').val(),
+                dataNascimento: $('#dataNascimento').val()
+            },
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                window.location.href = data.stringRetorno;
+            },
+            error: function (error) {
+                mostrarAlerta("Erro", "Ocorreu um erro", "error");
+            }
+        })
+        }
+    }
+</script>

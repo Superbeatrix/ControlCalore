@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = "_LayoutLogin";
+}
+
+<main class="d-flex w-100">
+    <div class="container d-flex flex-column">
+        <div class="row vh-100">
+            <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+                <div class="d-table-cell align-middle">
+
+                    <div class="text-center mt-4">
+                        <h1 class="h2">Entrar</h1>
+                        <p class="lead">
+                            Faça login em sua conta para continuar
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="m-sm-4">
+                                @*<div class="text-center">
+                                        <img src="img/avatars/avatar.jpg" alt="Charles Hall" class="img-fluid rounded-circle" width="132" height="132" />
+                                    </div>*@
+                                <form>
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input class="form-control form-control-lg" id="email" type="email" name="email" placeholder="Digite Seu Email email" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Senha</label>
+                                        <input class="form-control form-control-lg" id="senha" type="password" name="password" placeholder="Digite sua senha" />
+                                        @*<small>
+                                                <a href="index.html">Esqueceu a senha?</a>
+                                            </small>*@
+                                    </div>
+                                    @*<div>
+                                            <label class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="remember-me" name="remember-me" checked>
+                                                <span class="form-check-label">
+                                                    Remember me next time
+                                                </span>
+                                            </label>
+                                        </div>*@
+                                    <div class="text-center mt-3">
+                                        @*<a href="index.html" class="btn btn-lg btn-primary" onclick="login">Login</a>*@
+                                        <button type="button" class="btn btn-lg btn-primary" onclick="login()">Login</button>
+                                        <br />
+                                        <br />
+                                        <a href="Login/Registrar">Registre-se</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function login() {
+        let email = $('#email').val();
+        let senha = $('#senha').val();
+
+        if (email == "" || email == null || email == undefined) {
+            mostrarAlerta("Atenção", "Preencha o email", "warning");
+        }
+        else if (senha == "" || senha == null || senha == undefined) {
+            mostrarAlerta("Atenção", "Preencha a senha", "warning");
+        }
+        else {
+            $.ajax({
+            url: "@Url.Action("Login", "Login")",
+            type: 'post',
+            data: {
+                email: $('#email').val(),
+                senha: $('#senha').val()
+            },
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                window.location.href = data.stringRetorno;
+            }
+        })
+        }
+    }
+</script>
